@@ -40,7 +40,16 @@ public:
             }
         }
 
-        static TreeNode* makeTree(vector<string>elements)
+        static TreeNode* makeTreeUsingIntElements(vector<int>elements)
+        {
+            vector<string>convertedArr;
+            for(int i: elements){
+                convertedArr.push_back(to_string(i));
+            }
+            return makeTreeUsingStringElements(convertedArr);
+        }
+
+        static TreeNode* makeTreeUsingStringElements(vector<string>elements)
         {
             if(elements.size()==0 || elements[0]=="null")
             return nullptr;
