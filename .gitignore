@@ -1,5 +1,7 @@
+*_unsolved.cpp
 *.exe
 *.json
 IEEE_problems/
 test/practice/
 TCS/
+.vscode/
