@@ -87,12 +87,19 @@ public:
     static void printtwoDArray(vector<vector<int>>a)
     {
         cout<<"[";
-        for(auto i: a)
+        for(int i=0;i<a.size();i++)
         {
             cout<<"[";
-            for(auto x: i)
-            cout<<x<<",";
+            for(int j=0;j<a[i].size();j++){
+                if(j!=a[i].size()-1)
+                cout<<j<<",";
+                else
+                cout<<j;
+            }
+            if(i!=a.size()-1)
             cout<<"],";
+            else
+            cout<<"]";
         }
         cout<<"]"<<endl;
     }

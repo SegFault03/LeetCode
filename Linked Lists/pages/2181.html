@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List Merge Simulation - Corrected</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .linked-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .node {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .arrow {
+            width: 20px;
+            height: 2px;
+            background-color: #3498db;
+            position: relative;
+            top: 20px;
+        }
+        .arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid #3498db;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f1f8ff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Linked List Merge Simulation - Corrected</h1>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const LinkedListSimulation = () => {
+            const [list, setList] = React.useState([0, 3, 1, 0, 4, 5, 2, 0]);
+            const [step, setStep] = React.useState(0);
+            const [mergedList, setMergedList] = React.useState([]);
+            const [explanation, setExplanation] = React.useState('Initial state: The first zero will be replaced by the first sum.');
+
+            const mergeStep = () => {
+                if (step >= list.length) return;
+
+                let newList = [...list];
+                let newMergedList = [...mergedList];
+                let sum = 0;
+                let i = step;
+
+                // Skip the initial zero if it's the first step
+                if (step === 0) i++;
+
+                while (i < newList.length && newList[i] !== 0) {
+                    sum += newList[i];
+                    i++;
+                }
+
+                newMergedList.push(sum);
+
+                setStep(i + 1);
+                setMergedList(newMergedList);
+                setExplanation(`Merged nodes between zeros. Sum: ${sum}`);
+            };
+
+            const reset = () => {
+                setList([0, 3, 1, 0, 4, 5, 2, 0]);
+                setStep(0);
+                setMergedList([]);
+                setExplanation('Initial state: The first zero will be replaced by the first sum.');
+            };
+
+            return (
+                <div>
+                    <h2>Original List:</h2>
+                    <div className="linked-list">
+                        {list.map((value, index) => (
+                            <React.Fragment key={index}>
+                                <div className="node" style={{backgroundColor: index < step ? '#e8f6ff' : 'white'}}>{value}</div>
+                                {index < list.length - 1 && <div className="arrow"></div>}
+                            </React.Fragment>
+                        ))}
+                    </div>
+
+                    <h2>Merged List:</h2>
+                    <div className="linked-list">
+                        {mergedList.map((value, index) => (
+                            <React.Fragment key={index}>
+                                <div className="node" style={{backgroundColor: '#e8f6ff'}}>{value}</div>
+                                {index < mergedList.length - 1 && <div className="arrow"></div>}
+                            </React.Fragment>
+                        ))}
+                    </div>
+
+                    <div className="controls">
+                        <button onClick={mergeStep} disabled={step >= list.length}>Next Step</button>
+                        <button onClick={reset}>Reset</button>
+                    </div>
+
+                    <div className="explanation">
+                        <strong>Explanation:</strong> {explanation}
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<LinkedListSimulation />, document.getElementById('root'));
+    </script>
+</body>
+</html>
